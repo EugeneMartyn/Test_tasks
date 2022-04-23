@@ -1,39 +1,53 @@
 import random 
 
-def generate():
+def generate(passwordLength):
     result = ''
+    number_of_conditions = 4
 
-    for i in range(11):
-        result += ch[random.randint(0, len(ch)-1)]
+    lowerChar = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
+                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',]
 
-    if result.lower() == result:
-        result += ch[26 + random.randint(0, 25)]
+    upperChar = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
+                 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+                 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-    if result.upper() == result:
-        result += ch[0 + random.randint(0, 25)]
+    digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
 
-    if not(set(result) & set(ch[52:62])):
-        result += ch[52 + random.randint(0, 9)]
+    punct= ['!', '"', '#', '$', '%', '&', "'",
+            '(', ')', '*', '+', ',', '-', '.', 
+            '/', ':', ';', '<', '=', '>', '?', 
+            '@', '[', '\\', ']', '^', '_', '`', 
+            '{', '|', '}', '~']
 
-    if not(set(result) & set(ch[62:])):
-        result += ch[62 + random.randint(0, 31)]
+    allCharacters = lowerChar + upperChar + digits + punct 
 
-    for i in range(len(result), 14):
-        result += ch[random.randint(0, len(ch)-1)]
+    #fill part of the password with random characters.
+    for i in range(passwordLength - number_of_conditions - 1):
+        result += allCharacters[random.randint(0, len(allCharacters)-1)]
+
+    #check if password contains uppercase characters. If not - add them
+    if not(set(result) & set(upperChar)):
+        result += upperChar[random.randint(0, len(upperChar)-1)]
+
+    #check if password contains lowercase characters. If not - add them
+    if not(set(result) & set(lowerChar)):
+        result += lowerChar[random.randint(0, len(lowerChar)-1)]
+
+    #check if password contains digits. If not - add them
+    if not(set(result) & set(digits)):
+        result += digits[random.randint(0, len(digits)-1)]
+
+    #check if password contains punctuation marks. If not - add them
+    if not(set(result) & set(punct)):
+        result += punct[random.randint(0, len(punct)-1)]
+
+    # if legnth of result < necessary length - fill the password with random characters to the end
+    for i in range(len(result), passwordLength):
+        result += allCharacters[random.randint(0, len(allCharacters)-1)]
 
     return result
 
 
-ch = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-      'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
-      's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 
-      'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
-      'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 
-      'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', 
-      '3', '4', '5', '6', '7', '8', '9', '0', '!', 
-      '"', '#', '$', '%', '&', "'", '(', ')', '*', 
-      '+', ',', '-', '.', '/', ':', ';', '<', '=', 
-      '>', '?', '@', '[', '\\', ']', '^', '_', '`', 
-      '{', '|', '}', '~']  
-
-print(generate())
+length = 14
+print(generate(length))
